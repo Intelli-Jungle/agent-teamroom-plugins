@@ -1,0 +1,5 @@
+id = "msglog"
+name = "Message Log"
+version = "0.1.0"
+description = "Append every message to a JSONL log and export the last N via API"
+enabled = true
