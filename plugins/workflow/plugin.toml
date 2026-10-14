@@ -1,0 +1,5 @@
+id = "workflow"
+name = "Workflow"
+version = "0.1.0"
+description = "Per-session directed workflow: edges, roles, max hops"
+enabled = true

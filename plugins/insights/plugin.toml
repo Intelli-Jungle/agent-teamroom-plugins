@@ -1,0 +1,5 @@
+id = "insights"
+name = "Session Insights"
+version = "0.1.0"
+description = "Stats board and mention-flow graph"
+enabled = true

@@ -1,0 +1,70 @@
+/* Session Insights 插件样式：模态框内的统计表 + 流程图。
+   面板定位样式已随 aside 移除；全部用宿主 CSS 变量，明暗主题自适应。 */
+
+.insights-section { margin-bottom: 18px; }
+.insights-heading {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.insights-empty { font-size: 12.5px; color: var(--text-faint); margin: 4px 0; }
+
+.insights-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.insights-table th, .insights-table td {
+  padding: 4px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.insights-table .insights-num { text-align: right; font-variant-numeric: tabular-nums; }
+.insights-head { color: var(--text-faint); font-size: 11.5px; }
+.insights-name { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.insights-name .agent-dot { width: 8px; height: 8px; margin-right: 5px; }
+.insights-total td { font-weight: 600; border-bottom: none; }
+
+.insights-flow-svg { width: 100%; height: auto; display: block; }
+.insights-zoom {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+}
+.insights-zoom .insights-flow-svg { touch-action: none; cursor: grab; }
+.insights-zoom .insights-flow-svg:active { cursor: grabbing; }
+.zoom-controls {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.zoom-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-menu);
+}
+.zoom-btn:hover { color: var(--accent); border-color: var(--accent); }
+.insights-edge { stroke: var(--text-faint); }
+.insights-arrow-head { fill: var(--text-faint); }
+.insights-badge { fill: var(--bg-elevated); stroke: var(--border); }
+.insights-badge-text { font-size: 10px; fill: var(--text-secondary); }
+.insights-node { cursor: grab; }
+.insights-node:active { cursor: grabbing; }
+.insights-node-label { font-size: 11px; fill: var(--text-secondary); }

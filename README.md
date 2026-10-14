@@ -25,6 +25,8 @@ See the [plugin architecture doc](https://github.com/Intelli-Jungle/agent-teamro
 | --- | --- | --- |
 | [`hello`](plugins/hello/) | Hello | Minimal example / starter template: greeting prompt line, per-session message counter, header button with a host modal |
 | [`msglog`](plugins/msglog/) | Message Log | Appends every message to `data/plugins/msglog/messages.jsonl` and exposes a `GET /api/msglog/recent?limit=N` export endpoint |
+| [`insights`](plugins/insights/) | Session Insights | Stats board and mention-flow graph |
+| [`workflow`](plugins/workflow/) | Workflow | Per-session directed workflow: edges, roles, max hops |
 
 ## Installing a plugin
 
@@ -61,7 +63,6 @@ Pull requests welcome. One plugin per PR, in `plugins/<id>/`.
 
 - `plugin.toml` **required**, with all of: `id` (must equal the directory name, `[A-Za-z0-9_-]+`), `name`, `version`, `description`, `enabled`
 - `plugin.py` optional; `web/index.js` (+ optional `web/style.css`) optional — a plugin may be backend-only, but not frontend-only (the frontend needs `plugin.toml` to be discovered)
-- Reserved ids: `insights`, `workflow` (bundled with the main repo). Pick something else
 
 ### Backend rules
 
@@ -79,6 +80,14 @@ Pull requests welcome. One plugin per PR, in `plugins/<id>/`.
 - Use host CSS variables (`--border`, `--text-faint`, ...) so both themes work — see `plugins/hello/web/style.css`
 - Prefer `ctx.openModal` over building your own panel
 - Scope every CSS class with your plugin id prefix (e.g. `.hello-...`)
+
+### Running tests
+
+Plugin tests live in `tests/` and import the `teamroom` package from the main repo. Point `TEAMROOM_REPO` at a local checkout of the main repo (default: a sibling `agent-teamroom` directory) and run pytest with the main repo's virtualenv:
+
+```bash
+TEAMROOM_REPO=/path/to/agent-teamroom /path/to/agent-teamroom/.venv/bin/python -m pytest tests/ -q
+```
 
 ### Before opening the PR
 

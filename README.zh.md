@@ -25,6 +25,8 @@ plugins/<id>/
 | --- | --- | --- |
 | [`hello`](plugins/hello/) | Hello | 最小示例 / 抄作业模板：问候提示行、按会话消息计数、头部按钮 + 宿主模态框 |
 | [`msglog`](plugins/msglog/) | Message Log | 把每条消息追加到 `data/plugins/msglog/messages.jsonl`，并提供 `GET /api/msglog/recent?limit=N` 导出接口 |
+| [`insights`](plugins/insights/) | Session Insights | 统计看板与提及流程图 |
+| [`workflow`](plugins/workflow/) | Workflow | 按会话的有向工作流：边、角色、跳数上限 |
 
 ## 安装插件
 
@@ -61,7 +63,6 @@ extra_dirs = ["~/Work/agent-teamroom-plugins/plugins"]
 
 - `plugin.toml` **必需**，字段齐全：`id`（必须与目录名一致，`[A-Za-z0-9_-]+`）、`name`、`version`、`description`、`enabled`
 - `plugin.py` 可选；`web/index.js`（+ 可选 `web/style.css`）可选——可以只做后端，但不能只做前端（没有 `plugin.toml` 无法被发现）
-- 保留 id：`insights`、`workflow`（主仓库内置）。请另选
 
 ### 后端要求
 
@@ -79,6 +80,14 @@ extra_dirs = ["~/Work/agent-teamroom-plugins/plugins"]
 - 样式用宿主 CSS 变量（`--border`、`--text-faint`……）以适配明暗双主题——参考 `plugins/hello/web/style.css`
 - 优先用 `ctx.openModal`，不要自建 aside 面板
 - 所有 CSS 类名加插件 id 前缀（如 `.hello-...`）
+
+### 跑测试
+
+插件测试在 `tests/` 下，import 主仓库的 `teamroom` 包。用 `TEAMROOM_REPO` 环境变量指向主仓库的本地检出（缺省取与本仓库同级的 `agent-teamroom` 目录），并用主仓库的虚拟环境跑 pytest：
+
+```bash
+TEAMROOM_REPO=/path/to/agent-teamroom /path/to/agent-teamroom/.venv/bin/python -m pytest tests/ -q
+```
 
 ### 提 PR 前自查
 
