@@ -8,7 +8,7 @@
 /* 插件自己的后端路由不在宿主 ctx.api 的固定方法表里，需要直连 fetch。
    宿主 api.js 是 ES 模块单例（同 URL 共享实例），import getToken 即可拿到
    宿主已设置的会话令牌，与核心 API 走同一鉴权。 */
-import { getToken } from "../../js/api.js";
+import { getToken } from "../../static/js/api.js";
 
 /* 用户可见文案：中英双语，宿主按当前语言取，缺语言回退 en。 */
 const STRINGS = {
