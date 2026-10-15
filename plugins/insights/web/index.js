@@ -125,6 +125,13 @@ export function layoutFlow({ humans = [], agents = [] }, width = 460) {
   return { width, height, nodes };
 }
 
+/* 模态框在手机上只有约 300px 可用宽度；缩小 viewBox 比例比把 460px
+   图硬压缩更易读。Node 测试没有 window 时保持桌面默认值。 */
+function responsiveGraphWidth(maxWidth = 720) {
+  if (typeof window === "undefined") return maxWidth;
+  return Math.min(maxWidth, Math.max(320, window.innerWidth - 64));
+}
+
 /* 二次贝塞尔曲线控制点：垂直于弦方向偏移，方向由 from/to 名字序决定
    （反向边自动分到弦另一侧）。 */
 export function bezierControl(a, b, from, to) {
@@ -389,7 +396,7 @@ export function register(ctx) {
       return wrap;
     }
     const { humans, agents } = splitFlowNodes(data, humanName());
-    const layout = layoutFlow({ humans, agents }, 460);
+    const layout = layoutFlow({ humans, agents }, responsiveGraphWidth());
     /* 应用拖拽留下的位置覆盖（节点对象可变，边重算直接读它） */
     for (const n of layout.nodes) {
       const o = nodePosOverrides.get(n.name);
@@ -526,6 +533,7 @@ export function register(ctx) {
   function openInsights() {
     ctx.openModal({
       title: t("title"),
+      wide: true,
       build: (body) => {
         modalBody = body;
         stats = null;

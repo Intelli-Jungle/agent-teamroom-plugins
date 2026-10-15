@@ -268,6 +268,13 @@ export function layoutFlow({ humans = [], agents = [] }, width = 640) {
   return { width, height, nodes };
 }
 
+/* 手机端模态框可用宽度约 300px；按视口收窄 viewBox，避免 640px 图缩放后
+   节点文字和连线标记难以阅读。Node 测试没有 window 时保持桌面默认值。 */
+function responsiveGraphWidth(maxWidth = 720) {
+  if (typeof window === "undefined") return maxWidth;
+  return Math.min(maxWidth, Math.max(320, window.innerWidth - 64));
+}
+
 /* 普通边几何：端点沿连线方向按节点半径缩短（to 侧多留箭头空间），
    双向边对各自反向 ±4 垂直偏移避免重叠。拖拽节点时按新位置重算。 */
 export function edgeLinePoints(a, b, reverse) {
@@ -424,7 +431,10 @@ export function register(ctx) {
 
   function graphSvg() {
     const agents = sessionAgents();
-    const layout = layoutFlow({ humans: [humanName()], agents });
+    const layout = layoutFlow(
+      { humans: [humanName()], agents },
+      responsiveGraphWidth()
+    );
     /* 应用拖拽摆过的位置（render() 重建后保留） */
     for (const n of layout.nodes) {
       const p = nodePos.get(n.name);

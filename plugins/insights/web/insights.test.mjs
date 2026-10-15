@@ -205,7 +205,7 @@ test("register：头部按钮点击后 openModal 打开并渲染 stats + flow �
   calls.headerButton.onClick();
   assert.ok(calls.modal, "应调用 openModal");
   assert.equal(calls.modal.title, "Session insights");
-  assert.ok(!calls.modal.wide, "insights 用默认宽度");
+  assert.ok(calls.modal.wide, "insights 使用宽模态框容纳统计图");
   /* fetchStats 是异步的，flush 微任务后 body 应有 stats 表 + 流程图 */
   await new Promise((r) => setTimeout(r, 0));
   assert.equal(calls.modal.body.children.length, 2);
