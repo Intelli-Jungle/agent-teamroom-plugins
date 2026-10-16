@@ -154,13 +154,13 @@ test("layoutFlow：人类左列 Agent 右列（默认 640 宽适配 wide modal�
   const layout = layoutFlow({ humans: ["我"], agents: ["claude", "kimi"] });
   const me = layout.nodes.find((n) => n.name === "我");
   const claude = layout.nodes.find((n) => n.name === "claude");
-  assert.equal(me.x, 110);
-  assert.equal(claude.x, 640 - 110);
+  assert.equal(me.x, 96);
+  assert.equal(claude.x, 640 - 96);
   assert.equal(layout.nodes.length, 3);
-  /* 新间距：rowH=88、padY=60，两行时高度 60*2+88=208，左列单行垂直居中 */
-  assert.equal(layout.height, 208);
-  assert.equal(me.y, 60 + 44);
-  assert.equal(claude.y, 60);
+  /* 紧凑间距：rowH=68、padY=36，两行时高度 36*2+68=140，左列单行垂直居中 */
+  assert.equal(layout.height, 140);
+  assert.equal(me.y, 36 + 34);
+  assert.equal(claude.y, 36);
 });
 
 test("edgeLinePoints：端点缩短、双向 ±4 反向偏移", () => {

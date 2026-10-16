@@ -116,6 +116,11 @@
   color: var(--text);
   font-weight: 700;
 }
+.insights-total .insights-num {
+  min-width: 0;
+  font-size: 11px;
+  letter-spacing: -0.025em;
+}
 .insights-total td:first-child { padding-left: 8px; }
 
 .insights-flow-section { min-height: 100%; }

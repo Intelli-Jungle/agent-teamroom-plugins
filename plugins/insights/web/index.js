@@ -273,13 +273,11 @@ export function register(ctx) {
     totalTokIn.title = t("est");
     const totalTokOut = ctx.el("td", "insights-num", `≈${formatCount(tokensOut)}`);
     totalTokOut.title = t("est");
-    total.append(
-      ctx.el("td", "", t("total")),
-      ctx.el("td", "insights-num", String(data.total_messages || 0)),
-      ctx.el("td", "insights-num", String(files)),
-      totalTokIn,
-      totalTokOut
-    );
+    const totalMessages = ctx.el("td", "insights-num", formatCount(data.total_messages || 0));
+    totalMessages.title = String(data.total_messages || 0);
+    const totalFiles = ctx.el("td", "insights-num", formatCount(files));
+    totalFiles.title = String(files);
+    total.append(ctx.el("td", "", t("total")), totalMessages, totalFiles, totalTokIn, totalTokOut);
     table.append(total);
     wrap.append(table);
     return wrap;

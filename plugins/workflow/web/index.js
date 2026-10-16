@@ -252,14 +252,14 @@ export function specDefaultsFor(specs, agentName) {
   return { role: spec.role || "", goal: spec.goal || "", backstory: spec.backstory || "" };
 }
 
-/* 两列布局（与 insights 同思路）：人类左列、Agent 右列垂直均布居中。 */
+/* 紧凑两列布局：人类左列、Agent 右列垂直均布居中，避免多个 Agent 挤成一排。 */
 export function layoutFlow({ humans = [], agents = [] }, width = 640) {
   const rows = Math.max(humans.length, agents.length, 1);
-  const rowH = 88;
-  const padY = 60;
+  const rowH = 68;
+  const padY = 36;
   const height = padY * 2 + (rows - 1) * rowH;
-  const leftX = 110;
-  const rightX = width - 110;
+  const leftX = 96;
+  const rightX = width - 96;
   const nodes = [];
   const place = (list, side, x) => {
     const startY = padY + ((rows - list.length) * rowH) / 2;
@@ -767,6 +767,7 @@ export function register(ctx) {
 
         /* Goal → Backstory textarea；placeholder 优先显示 spec 默认人设 */
         const persona = (labelKey, pluralKey, singularKey) => {
+          const group = ctx.el("div", "wf-rgb-field");
           const sub = ctx.el("label", "modal-label wf-sublabel", t(labelKey));
           const area = ctx.el("textarea", "modal-input wf-area");
           area.rows = 2;
@@ -779,8 +780,14 @@ export function register(ctx) {
             if (text) model[pluralKey][name] = text;
             else delete model[pluralKey][name];
           });
-          field.append(sub, area);
+          group.append(sub, area);
+          field.append(group);
         };
+        const roleGroup = ctx.el("div", "wf-rgb-field");
+        roleGroup.append(ctx.el("label", "modal-label wf-sublabel", t("role")), roleSel, customInput);
+        /* Role 也放进统一字段容器，三列布局不会让 textarea 互相覆盖。 */
+        field.textContent = "";
+        field.append(label, roleGroup);
         persona("goal", "goals", "goal");
         persona("backstory", "backstories", "backstory");
         agentsPanel.append(field);
