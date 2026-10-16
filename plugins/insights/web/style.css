@@ -1,70 +1,216 @@
-/* Session Insights 插件样式：模态框内的统计表 + 流程图。
-   面板定位样式已随 aside 移除；全部用宿主 CSS 变量，明暗主题自适应。 */
+/* Session Insights：把统计与关系图做成与 Teamroom 工作台一致的分析面板。 */
 
-.insights-section { margin-bottom: 18px; }
-.insights-heading {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--text-faint);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.insights-modal-body {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.22fr);
+  gap: 16px;
+  align-items: start;
 }
-.insights-empty { font-size: 12.5px; color: var(--text-faint); margin: 4px 0; }
+
+.insights-section {
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: linear-gradient(145deg, var(--bg-elevated), var(--bg-code));
+  box-shadow: 0 8px 22px rgba(31, 51, 77, 0.07);
+}
+
+.insights-stats-section { overflow: hidden; }
+.insights-stats-section .insights-table { table-layout: fixed; }
+.insights-stats-section .insights-table th:first-child,
+.insights-stats-section .insights-table td:first-child { width: 31%; }
+.insights-stats-section .insights-table th:nth-child(2),
+.insights-stats-section .insights-table td:nth-child(2),
+.insights-stats-section .insights-table th:nth-child(3),
+.insights-stats-section .insights-table td:nth-child(3) { width: 14%; }
+.insights-stats-section .insights-table th:nth-child(4),
+.insights-stats-section .insights-table td:nth-child(4),
+.insights-stats-section .insights-table th:nth-child(5),
+.insights-stats-section .insights-table td:nth-child(5) { width: 20.5%; }
+.insights-stats-section .insights-table th {
+  white-space: normal;
+  line-height: 1.15;
+}
+.insights-stats-section .insights-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.insights-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.insights-heading::before {
+  width: 5px;
+  height: 15px;
+  border-radius: 4px;
+  background: var(--accent);
+  content: "";
+}
+.insights-empty {
+  margin: 12px 0 4px;
+  color: var(--text-faint);
+  font-size: 12.5px;
+}
 
 .insights-table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 12.5px;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+  font-size: 12px;
 }
-.insights-table th, .insights-table td {
-  padding: 4px 6px;
+.insights-table th,
+.insights-table td {
+  padding: 8px 7px;
+  border: 0;
   text-align: left;
-  border-bottom: 1px solid var(--border);
 }
-.insights-table .insights-num { text-align: right; font-variant-numeric: tabular-nums; }
-.insights-head { color: var(--text-faint); font-size: 11.5px; }
-.insights-name { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.insights-name .agent-dot { width: 8px; height: 8px; margin-right: 5px; }
-.insights-total td { font-weight: 600; border-bottom: none; }
+.insights-table th {
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.insights-table tbody tr td {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+.insights-table tbody tr td:first-child {
+  border-left: 1px solid var(--border);
+  border-radius: 8px 0 0 8px;
+}
+.insights-table tbody tr td:last-child {
+  border-right: 1px solid var(--border);
+  border-radius: 0 8px 8px 0;
+}
+.insights-table tbody tr:hover td { background: var(--bg-hover); }
+.insights-table .insights-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.insights-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.insights-name .agent-dot {
+  width: 8px;
+  height: 8px;
+  margin-right: 7px;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.insights-total td {
+  color: var(--text);
+  font-weight: 700;
+}
+.insights-total td:first-child { padding-left: 8px; }
 
-.insights-flow-svg { width: 100%; height: auto; display: block; }
+.insights-flow-section { min-height: 100%; }
 .insights-zoom {
   position: relative;
+  min-height: 340px;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg-elevated);
+  border-radius: 12px;
+  background-color: var(--bg-code);
+  background-image: radial-gradient(var(--border-strong) 0.7px, transparent 0.7px);
+  background-size: 18px 18px;
+}
+.insights-flow-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 340px;
 }
 .insights-zoom .insights-flow-svg { touch-action: none; cursor: grab; }
 .insights-zoom .insights-flow-svg:active { cursor: grabbing; }
+
 .zoom-controls {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 10px;
+  right: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  gap: 5px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+  box-shadow: var(--shadow-menu);
 }
 .zoom-btn {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--bg-elevated);
+  width: 27px;
+  height: 27px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-menu);
 }
-.zoom-btn:hover { color: var(--accent); border-color: var(--accent); }
-.insights-edge { stroke: var(--text-faint); }
-.insights-arrow-head { fill: var(--text-faint); }
-.insights-badge { fill: var(--bg-elevated); stroke: var(--border); }
-.insights-badge-text { font-size: 10px; fill: var(--text-secondary); }
+.zoom-btn:hover {
+  border-color: var(--accent-soft);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.insights-edge {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  opacity: 0.72;
+}
+.insights-arrow-head { fill: var(--accent); }
+.insights-badge {
+  fill: var(--bg-elevated);
+  stroke: var(--border-strong);
+  filter: drop-shadow(0 2px 2px rgba(15, 23, 42, 0.12));
+}
+.insights-badge-text {
+  fill: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+}
 .insights-node { cursor: grab; }
 .insights-node:active { cursor: grabbing; }
-.insights-node-label { font-size: 11px; fill: var(--text-secondary); }
+.insights-node circle {
+  stroke: var(--bg-elevated);
+  stroke-width: 3;
+  filter: drop-shadow(0 3px 4px rgba(15, 23, 42, 0.2));
+}
+.insights-node-label {
+  fill: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .insights-section {
+  background: linear-gradient(145deg, var(--bg-elevated), var(--bg-code));
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+[data-theme="dark"] .insights-table tbody tr td { background: var(--bg-elevated); }
+[data-theme="dark"] .insights-table tbody tr:hover td { background: var(--bg-hover); }
+
+@media (max-width: 760px) {
+  .insights-modal-body { grid-template-columns: 1fr; gap: 12px; }
+  .insights-section { padding: 13px; }
+  .insights-flow-section { min-height: 0; }
+  .insights-zoom, .insights-flow-svg { min-height: 285px; }
+  .insights-table { font-size: 11px; }
+  .insights-table th:nth-last-child(-n + 2),
+  .insights-table td:nth-last-child(-n + 2) { display: none; }
+}

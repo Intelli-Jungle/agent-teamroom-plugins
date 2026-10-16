@@ -1,5 +1,0 @@
-id = "hello"
-name = "Hello"
-version = "0.1.0"
-description = "Minimal example plugin: greeting prompt line, message counter, header button"
-enabled = true

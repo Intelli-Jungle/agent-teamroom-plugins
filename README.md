@@ -23,7 +23,6 @@ See the [plugin architecture doc](https://github.com/Intelli-Jungle/agent-teamro
 
 | ID | Name | Description |
 | --- | --- | --- |
-| [`hello`](plugins/hello/) | Hello | Minimal example / starter template: greeting prompt line, per-session message counter, header button with a host modal |
 | [`msglog`](plugins/msglog/) | Message Log | Appends every message to `data/plugins/msglog/messages.jsonl` and exposes a `GET /api/msglog/recent?limit=N` export endpoint |
 | [`insights`](plugins/insights/) | Session Insights | Stats board and mention-flow graph |
 | [`workflow`](plugins/workflow/) | Workflow | Per-session directed workflow: edges, roles, max hops |
@@ -34,14 +33,14 @@ With the Teamroom CLI (talks to this registry):
 
 ```bash
 teamroom plugins available        # list plugins published here
-teamroom plugins install hello    # download plugins/hello/ into your plugins/ directory
+teamroom plugins install workflow  # download plugins/workflow/ into your plugins/ directory
 ```
 
 Manual install works too — a plugin is just a directory:
 
 ```bash
 git clone https://github.com/Intelli-Jungle/agent-teamroom-plugins.git
-cp -r agent-teamroom-plugins/plugins/hello /path/to/agent-teamroom/plugins/
+cp -r agent-teamroom-plugins/plugins/workflow /path/to/agent-teamroom/plugins/
 ```
 
 Or point Teamroom at a checkout without copying anything, via `config.toml`:
@@ -77,9 +76,9 @@ Pull requests welcome. One plugin per PR, in `plugins/<id>/`.
 
 - `web/index.js` exports `register(ctx)`; available ctx surface: `store`, `api`, `i18n`, `toast`, `el(tag, cls, text)`, `on(event, fn)`, `pluginLocale(strings)`, `addHeaderButton({id, title, svgIcon, onClick})`, `openModal({title, build, actions, wide})`
 - Use `ctx.pluginLocale({en: {...}, "zh-CN": {...}})` for user-facing strings (both locales)
-- Use host CSS variables (`--border`, `--text-faint`, ...) so both themes work — see `plugins/hello/web/style.css`
+- Use host CSS variables (`--border`, `--text-faint`, ...) so both themes work — see `plugins/workflow/web/style.css`
 - Prefer `ctx.openModal` over building your own panel
-- Scope every CSS class with your plugin id prefix (e.g. `.hello-...`)
+- Scope every CSS class with your plugin id prefix (e.g. `.workflow-...`)
 
 ### Running tests
 

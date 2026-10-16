@@ -10,6 +10,7 @@ const STRINGS = {
   en: {
     toggle: "Workflow",
     title: "Workflow",
+    graph_preview: "Loop map",
     enabled: "Enabled",
     max_hops: "Max hops",
     instructions: "Instructions",
@@ -43,6 +44,7 @@ const STRINGS = {
   "zh-CN": {
     toggle: "工作流",
     title: "工作流",
+    graph_preview: "Loop 关系图",
     enabled: "启用",
     max_hops: "最大跳数",
     instructions: "交互指令",
@@ -582,7 +584,7 @@ export function register(ctx) {
       g.addEventListener("pointerup", endDrag);
       g.addEventListener("pointercancel", endDrag);
     }
-    const zoomWrap = ctx.el("div", "wf-zoom");
+    const zoomWrap = ctx.el("div", "wf-zoom wf-graph-card");
     attachZoom(zoomWrap, svg, layer, layout.width);
     return zoomWrap;
   }
@@ -636,7 +638,7 @@ export function register(ctx) {
     if (!modalBody || !model) return;
     modalBody.textContent = "";
 
-    const top = ctx.el("div", "wf-top");
+    const top = ctx.el("div", "wf-top wf-control-bar");
     const enabledLabel = ctx.el("label", "wf-enabled");
     const enabledBox = document.createElement("input");
     enabledBox.type = "checkbox";
@@ -673,9 +675,12 @@ export function register(ctx) {
     instrField.append(instrArea);
     modalBody.append(instrField);
 
-    modalBody.append(graphSvg());
+    const graph = graphSvg();
+    graph.dataset.label = t("graph_preview");
+    modalBody.append(graph);
 
-    modalBody.append(ctx.el("div", "wf-heading", t("edges")));
+    const edgePanel = ctx.el("section", "wf-panel wf-edge-panel");
+    edgePanel.append(ctx.el("div", "wf-heading", t("edges")));
     const edgeList = ctx.el("div", "wf-edge-list");
     if (model.edges.length === 0) {
       edgeList.append(ctx.el("p", "wf-empty", t("empty_edges")));
@@ -693,11 +698,13 @@ export function register(ctx) {
       render();
     });
     edgeList.append(addBtn);
-    modalBody.append(edgeList);
+    edgePanel.append(edgeList);
+    modalBody.append(edgePanel);
 
     const agents = sessionAgents();
     if (agents.length) {
-      modalBody.append(ctx.el("div", "wf-heading", t("agents")));
+      const agentsPanel = ctx.el("section", "wf-panel wf-agents-panel");
+      agentsPanel.append(ctx.el("div", "wf-heading", t("agents")));
       for (const name of agents) {
         const field = ctx.el("div", "wf-role");
         const label = ctx.el("label", "wf-role-label", name);
@@ -776,8 +783,9 @@ export function register(ctx) {
         };
         persona("goal", "goals", "goal");
         persona("backstory", "backstories", "backstory");
-        modalBody.append(field);
+        agentsPanel.append(field);
       }
+      modalBody.append(agentsPanel);
     }
   }
 
@@ -845,6 +853,7 @@ export function register(ctx) {
       wide: true,
       build: (body) => {
         modalBody = body;
+        body.className = `${body.className || "modal-body"} workflow-modal-body`;
         model = null;
         nodePos.clear(); // 重新打开时回到默认布局
         load();

@@ -23,7 +23,6 @@ plugins/<id>/
 
 | ID | 名称 | 说明 |
 | --- | --- | --- |
-| [`hello`](plugins/hello/) | Hello | 最小示例 / 抄作业模板：问候提示行、按会话消息计数、头部按钮 + 宿主模态框 |
 | [`msglog`](plugins/msglog/) | Message Log | 把每条消息追加到 `data/plugins/msglog/messages.jsonl`，并提供 `GET /api/msglog/recent?limit=N` 导出接口 |
 | [`insights`](plugins/insights/) | Session Insights | 统计看板与提及流程图 |
 | [`workflow`](plugins/workflow/) | Workflow | 按会话的有向工作流：边、角色、跳数上限 |
@@ -34,14 +33,14 @@ plugins/<id>/
 
 ```bash
 teamroom plugins available        # 列出本仓库发布的插件
-teamroom plugins install hello    # 把 plugins/hello/ 下载到你的 plugins/ 目录
+teamroom plugins install workflow  # 把 plugins/workflow/ 下载到你的 plugins/ 目录
 ```
 
 也可以手动安装——插件就是一个目录：
 
 ```bash
 git clone https://github.com/Intelli-Jungle/agent-teamroom-plugins.git
-cp -r agent-teamroom-plugins/plugins/hello /path/to/agent-teamroom/plugins/
+cp -r agent-teamroom-plugins/plugins/workflow /path/to/agent-teamroom/plugins/
 ```
 
 或者不拷贝，直接在 `config.toml` 里指向本仓库检出：
@@ -77,9 +76,9 @@ extra_dirs = ["~/Work/agent-teamroom-plugins/plugins"]
 
 - `web/index.js` 导出 `register(ctx)`；ctx 可用面：`store`、`api`、`i18n`、`toast`、`el(tag, cls, text)`、`on(event, fn)`、`pluginLocale(strings)`、`addHeaderButton({id, title, svgIcon, onClick})`、`openModal({title, build, actions, wide})`
 - 用户可见文案走 `ctx.pluginLocale({en: {...}, "zh-CN": {...}})`（中英双语）
-- 样式用宿主 CSS 变量（`--border`、`--text-faint`……）以适配明暗双主题——参考 `plugins/hello/web/style.css`
+- 样式用宿主 CSS 变量（`--border`、`--text-faint`……）以适配明暗双主题——参考 `plugins/workflow/web/style.css`
 - 优先用 `ctx.openModal`，不要自建 aside 面板
-- 所有 CSS 类名加插件 id 前缀（如 `.hello-...`）
+- 所有 CSS 类名加插件 id 前缀（如 `.workflow-...`）
 
 ### 跑测试
 

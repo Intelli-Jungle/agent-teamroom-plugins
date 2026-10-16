@@ -221,7 +221,7 @@ export function register(ctx) {
   /* ---- 模态框内容（openModal 由宿主 ctx 提供） ---- */
 
   function statsTable(data) {
-    const wrap = ctx.el("div", "insights-section");
+    const wrap = ctx.el("div", "insights-section insights-stats-section");
     wrap.append(ctx.el("div", "insights-heading", t("stats")));
     const table = ctx.el("table", "insights-table");
     const head = ctx.el("tr", "insights-head");
@@ -388,7 +388,7 @@ export function register(ctx) {
   }
 
   function flowSvg(data) {
-    const wrap = ctx.el("div", "insights-section");
+    const wrap = ctx.el("div", "insights-section insights-flow-section");
     wrap.append(ctx.el("div", "insights-heading", t("flow")));
     const edges = flowEdges(data);
     if (edges.length === 0) {
@@ -536,6 +536,7 @@ export function register(ctx) {
       wide: true,
       build: (body) => {
         modalBody = body;
+        body.className = `${body.className || "modal-body"} insights-modal-body`;
         stats = null;
         fetchStats();
       },
